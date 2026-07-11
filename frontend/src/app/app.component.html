@@ -1,0 +1,51 @@
+<div class="chat-container">
+  <header class="chat-header">
+    <h1>Chatbot Demo</h1>
+    <div class="connection-controls">
+      <button (click)="connect()" [disabled]="connected" class="btn btn-primary">
+        Connect
+      </button>
+      <button (click)="disconnect()" [disabled]="!connected" class="btn btn-secondary">
+        Disconnect
+      </button>
+    </div>
+  </header>
+
+  <main class="chat-main">
+    <div #messageList class="message-list">
+      <ng-container *ngFor="let event of events">
+        <div class="message user">
+          <div class="message-bubble user-bubble">
+            <div class="message-text">{{ event.user }}</div>
+            <div class="message-time">{{ event.time | date:'shortTime' }}</div>
+          </div>
+        </div>
+
+        <div class="message bot">
+          <div class="message-bubble bot-bubble">
+            <div class="message-text">{{ event.ai }}</div>
+            <div class="message-time">{{ event.time | date:'shortTime' }}</div>
+          </div>
+        </div>
+      </ng-container>
+
+      <div *ngIf="events.length === 0" class="empty-state">
+        <p>No messages yet. Connect and send a message to start chatting.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="chat-footer">
+    <div class="input-group">
+      <input
+        [(ngModel)]="userInput"
+        placeholder="Type your message..."
+        (keyup.enter)="sendPrompt()"
+        class="message-input"
+      />
+      <button (click)="sendPrompt()" [disabled]="!userInput.trim()" class="btn btn-send">
+        Send
+      </button>
+    </div>
+  </footer>
+</div>
